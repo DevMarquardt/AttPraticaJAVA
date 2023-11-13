@@ -14,16 +14,6 @@ public class ProdutoService {
     private ProdutoRepository produtoRepository;
 
     public void criarProduto(Produto produto){
-        if (produto.getNome() != null &&
-            produto.getPreco() != null &&
-            produto.getEstoque() != null &&
-            produto.getData_validade() != null &&
-produto.getDescricao() != null &&
-produto.getCodigo_de_barras() != null &&
-produto.getPeso() != null &&
-produto.getMedida() != null &&
-produto.getFabricante() != null &&
-        )
         produtoRepository.save(produto);
     }
 
@@ -42,4 +32,5 @@ produto.getFabricante() != null &&
     public void editarProduto(Integer id){
         produtoRepository.save(buscarProduto(id));
     }
+
 }
