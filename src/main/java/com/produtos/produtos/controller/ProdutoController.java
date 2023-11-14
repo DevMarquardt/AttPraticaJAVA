@@ -9,54 +9,33 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/produtos")
+@RequestMapping("/produto")
 @AllArgsConstructor
 public class ProdutoController {
     private ProdutoService produtoService;
 
     @PostMapping
     public ResponseEntity<?> criarProduto(@RequestBody Produto produto) {
-        Produto produto1 = produtoService.buscarProduto(produto.getId());
-        if (produto1 != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("O produto já existe");
-        } else {
-            produtoService.criarProduto(produto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(produto);
-        }
+        return  produtoService.criarProduto(produto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editarProduto(@PathVariable Integer id) {
-        if (produtoService.buscarProduto(id) != null) {
-            produtoService.editarProduto(id);
-            return ResponseEntity.status(HttpStatus.OK).body("Produto editado com sucesso");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado");
-        }
+    public ResponseEntity<?> editarProduto(@RequestBody Produto produto, @PathVariable Long id) {
+        return produtoService.editarProduto(produto, id);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarProduto(@PathVariable Integer id) {
-        Produto produto = produtoService.buscarProduto(id);
-        if (produto != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(produto);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado");
-        }
+    public ResponseEntity<?> buscarProduto(@PathVariable Long id) {
+        return produtoService.buscarProduto(id);
     }
 
     @GetMapping
-    public List<Produto> buscarTodos() {
+    public ResponseEntity<?> buscarTodos() {
         return produtoService.buscarTodos();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletarProduto(@PathVariable Integer id) {
-        if (produtoService.buscarProduto(id) != null) {
-            produtoService.deletarProduto(id);
-            return ResponseEntity.status(HttpStatus.OK).body("Produto deletado com sucesso");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado");
-        }
+    public ResponseEntity<?> deletarProduto(@PathVariable Long id) {
+        return produtoService.deletarProduto(id);
     }
 }

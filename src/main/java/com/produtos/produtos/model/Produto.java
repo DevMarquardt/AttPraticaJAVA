@@ -3,7 +3,7 @@ package com.produtos.produtos.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import javax.validation.constraints.Min;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -12,22 +12,35 @@ import javax.validation.constraints.Min;
 public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @Column(unique = true)
+    private Long id;
+
+    @Column(unique = true, nullable = false)
     private String nome;
-    @Min(1)
-    private Double preco;
-    @Min(0)
-    private Integer estoque;
+
     @Column(nullable = false)
+    private Double preco;
+
+    @Column(nullable = false)
+    private Integer estoque;
+
+    @Column(nullable = false, length = 10)
     private String data_validade;
+
+    @Column(nullable = false)
     private String descricao;
+
+    @Column(nullable = false)
     private Long codigo_de_barras;
+
+    @Column(nullable = false)
     private Double peso;
+
+    @Column(nullable = false)
     private Double medida;
-    private String fabricante;
-    private String categoria;
 
+    @ManyToOne
+    private Fabricante fabricante;
 
-
+    @ManyToMany(mappedBy = "produtos", cascade = CascadeType.PERSIST)
+    private List<Categoria> categorias;
 }
